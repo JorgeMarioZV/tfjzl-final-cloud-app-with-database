@@ -146,7 +146,7 @@ def show_exam_result(request, course_id, submission_id):
     submission = Submission.objects.get(id=submission_id)
     choices = submission.choices.all()
 
-    total_score = 0
+    grade = 0
     questions = course.question_set.all()  # Assuming course has related questions
 
     for question in questions:
@@ -155,10 +155,10 @@ def show_exam_result(request, course_id, submission_id):
 
         # Check if the selected choices are the same as the correct choices
         if set(correct_choices) == set(selected_choices):
-            total_score += question.grade  # Add the question's grade only if all correct answers are selected
+            grade += question.grade  # Add the question's grade only if all correct answers are selected
 
     context['course'] = course
-    context['grade'] = total_score
+    context['grade'] = grade
     context['choices'] = choices
 
     return render(request, 'onlinecourse/exam_result_bootstrap.html', context)
